@@ -1,10 +1,20 @@
 import customtkinter as ctk
 from tkinter import *
-import database
+from tkinter import filedialog
 from tkinter import messagebox
+import pandas as pd
+from pandastable import Table
+from tkintertable import TableCanvas, TableModel
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+
+
 
 root = ctk.CTk()
 color_login = '#F97D7D'
+largura_desejada = 500
+altura_desejada = 356
 
 class App_gerenciamento():
     def __init__(self):
@@ -43,11 +53,113 @@ class App_gerenciamento():
     
         #check box
         checkbox = ctk.CTkCheckBox(master=frame_login, text='Lembrar de mim ?', fg_color=color_login,border_color=color_login,hover_color=color_login,corner_radius=20,font=('Century Gothic',12)).place(x=125, y=316)
+        
+        
+    #NOVA IMAGEM E JANELAS 
+        def open_new_window():
+            ctk.set_appearance_mode('light')
+            ctk.set_default_color_theme('green')
+            
+            root.destroy()
+
+            MenuPrincipal = ctk.CTk()
+            MenuPrincipal.title('Banco de dados | DEV Cássio Estevão')
+            MenuPrincipal.iconbitmap('icon.ico')
+            MenuPrincipal.geometry('1024x512')
+            MenuPrincipal.resizable(False, False)
+            
+            # Desenvolvendo interface
+            # Título do Menu principal
+            text_label_title = ctk.CTkLabel(master=MenuPrincipal, text='Gerenciamento de comissão', font=('Century Gothic', 30), text_color=color_login)
+            text_label_title.place(x=180, y=5)
+            
+            label_option = ctk.CTkFrame(master=MenuPrincipal, width=685, height=43, bg_color='transparent',fg_color='transparent',border_color=color_login,border_width=2).place(x=30, y=63)
+        
+        # BOTÕES SUPERIOR MENU PRINCIPAL
+            btn_calculo = ctk.CTkButton(master=MenuPrincipal, text='Dados',bg_color='transparent', font=('Century Gothic', 15), fg_color=color_login,corner_radius=10)
+            btn_calculo.place(x=40, y=70)
+            btn_faturamento = ctk.CTkButton(master=MenuPrincipal, text='Faturamento',bg_color='transparent',fg_color=color_login, font=('Century Gothic', 15),corner_radius=10)
+            btn_faturamento.place(x=215, y=70)
+            btn_graficos = ctk.CTkButton(master=MenuPrincipal, text='Graficos',bg_color='transparent', font=('Century Gothic', 15), fg_color=color_login,corner_radius=10)
+            btn_graficos.place(x=390, y=70)
+            btn_dados = ctk.CTkButton(master=MenuPrincipal, text='Calculos',bg_color='transparent', font=('Century Gothic', 15), fg_color=color_login,corner_radius=10)
+            btn_dados.place(x=565, y=70)
+
+            # Frame de exibição
+            frm_exibe = ctk.CTkFrame(master=MenuPrincipal, width=665, height=350, fg_color=color_login, corner_radius=30)
+            frm_exibe.place(x=40, y=120)
+
+
+            # Calcular a largura das colunas com base no conteúdo das células
+
+
+         # Calcular a largura das colunas com base no conteúdo das células
+          # Calcular a largura das colunas com base no conteúdo das células
+         #   def calculateColumnWidths(table_model):
+          #      column_widths = []
+          #      for col in range(table_model.getColumnCount()):
+         #           max_width = max([len(str(table_model.getValueAt(row, col))) for row in range(table_model.getRowCount())])
+         #           column_widths.append(max_width * 3)  # Multiplicar pelo tamanho médio de um caractere
+         #       return column_widths
+
+            
+
+            def open_file():
+                file_path = filedialog.askopenfilename(filetypes=[('Excel Files', '*.xlsx *.xls')])
+                if file_path:
+                    df = pd.read_excel(file_path)
+
+        # Reorganizar as colunas para a orientação correta
+                    df = df.transpose()
+                    table_model = TableModel(dataframe=df)
+
+                    table = Table(frm_exibe, model=table_model)
+                    table.configure(cellbackground='white', cellforeground='black', rowselectedcolor='orange', rowheaderbackground='gray', rowheaderforeground='white', font=('Helvetica', 10), headerfont=('Helvetica', 10, 'bold'))
+
+                    # Oculta a coluna de índices
+                    table.showIndex()
+                    table.redraw()
+
+                    # Oculta a legenda do eixo y
+
+
+                    table.show()
+
+                    MenuPrincipal.update()
+
+            # BOTÕES DE EXPORTAÇÃO
+            btn_abrir = ctk.CTkButton(master=MenuPrincipal, text='Abrir',corner_radius=15,border_color=None ,font=('Century Gothic', 14), fg_color=color_login,command=open_file)
+            btn_abrir.place(x=80, y=476)
+            btn_import = ctk.CTkButton(master=MenuPrincipal, text='Importar',corner_radius=15,border_color=None ,font=('Century Gothic', 14), fg_color=color_login,)
+            btn_import.place(x=255, y=476)
+#TEMAA
+            
+            def mudar_tema():
+                ctk.set_appearance_mode('dark')
+                ctk.set_default_color_theme('dark-blue')
+                color_login = mudar_tema
+
+            btn_export = ctk.CTkButton(master=MenuPrincipal, text='Modo noturno!',corner_radius=15,border_color=None ,font=('Century Gothic', 14), fg_color=color_login,command=mudar_tema)
+            btn_export.place(x=850, y=476)
+
+            MenuPrincipal.mainloop()
+
+ ###########################  FINALIZAÇÕES ###################################################
+            
         def login():
-           
-            msg = messagebox.showerror(message='Usuario, não encotrado!',title='Atenção!')
-    
-        button_login = ctk.CTkButton(master=frame_login, text='Login',font=('Century Gothic',15),corner_radius=10,fg_color=color_login,command=login).place(x=125, y=366)
+            username = entry_nome.get()
+            password = entry_senha.get()
+
+    # Verificar as credenciais do usuário
+            if username == 'admin' and password == 'admin':
+                root.destroy()  # Fecha a janela de login
+                open_new_window()
+            else:
+                messagebox.showerror("Erro de login", "Credenciais inválidas")
+
+ ##########################################################################################               
+
+        button_login = ctk.CTkButton(master=frame_login, text='Login',font=('Century Gothic',15),corner_radius=10,fg_color=color_login,command=open_new_window).place(x=125, y=366)
         
         def Cadastro_menu():
             #remover frame de login
@@ -83,4 +195,4 @@ class App_gerenciamento():
         button_login_regis = ctk.CTkButton(master=frame_login, text='Registrar',font=('Century Gothic',15),corner_radius=10,fg_color=color_login,command=Cadastro_menu).place(x=280, y=366)
 
 
-App_gerenciamento() 
+App_gerenciamento()  
