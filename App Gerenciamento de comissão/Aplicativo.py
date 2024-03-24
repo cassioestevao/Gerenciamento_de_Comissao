@@ -40,21 +40,23 @@ class App_gerenciamento():
         label_img.place(x=5, y=40)
         label_img.configure(text='')
 
-        # FRAME
+    #FRAME
         frame_login = ctk.CTkFrame(master=root, width=512, height=510)
         frame_login.pack(side=RIGHT)
 
-        # FRAME WIDGET
+    #FRAME WIDGET
         label_title = ctk.CTkLabel(master=frame_login,text='Gerenciamento de comissão',font=('Century Gothic',30),text_color=color_login).place(x=50,y=80)
         entry_nome = ctk.CTkEntry(master=frame_login, placeholder_text='Digite o seu usuário', width=300, font=('Century Gothic',15),corner_radius=20,fg_color=color_login,text_color='black',placeholder_text_color='white',border_color=color_login,border_width=0).place(x=125, y=186)
         label_inf_user = ctk.CTkLabel(master=frame_login, text='*O campo de usuário é de carater obrigatorio.',font=('Century Gothic',12),text_color='black').place(x=125, y=216)
         entry_senha = ctk.CTkEntry(master=frame_login, placeholder_text='Digite a sua senha',width=300,font=('Century Gothic',15),corner_radius=20,fg_color=color_login,text_color='black',placeholder_text_color='white',border_color=color_login,border_width=0,show='*').place(x=125, y=246)
         label_inf_pass =ctk.CTkLabel(master=frame_login, text='*O compo de senha é de carater obrigatorio.',font=('Century Gothic',12),text_color='black').place(x=125,y=276)
-    
-        #check box
+
+
+    #CHECKBOX
         checkbox = ctk.CTkCheckBox(master=frame_login, text='Lembrar de mim ?', fg_color=color_login,border_color=color_login,hover_color=color_login,corner_radius=20,font=('Century Gothic',12)).place(x=125, y=316)
         
-        
+
+
     #NOVA IMAGEM E JANELAS 
         def open_new_window():
             ctk.set_appearance_mode('light')
@@ -67,14 +69,21 @@ class App_gerenciamento():
             MenuPrincipal.iconbitmap('icon.ico')
             MenuPrincipal.geometry('1024x512')
             MenuPrincipal.resizable(False, False)
-            
-            # Desenvolvendo interface
-            # Título do Menu principal
+
+
+
+
+            #DESENVOLVENDO INTERFACE GRAFICA
+            #TITULO MENU INTERFACE
             text_label_title = ctk.CTkLabel(master=MenuPrincipal, text='Gerenciamento de comissão', font=('Century Gothic', 30), text_color=color_login)
             text_label_title.place(x=180, y=5)
             
-            label_option = ctk.CTkFrame(master=MenuPrincipal, width=685, height=43, bg_color='transparent',fg_color='transparent',border_color=color_login,border_width=2).place(x=30, y=63)
-        
+            label_option = ctk.CTkFrame(master=MenuPrincipal, width=690, height=43, bg_color='transparent',fg_color='transparent',border_color=color_login,border_width=2).place(x=30, y=63)
+            label_tab = ctk.CTkFrame(master=MenuPrincipal, width=690, height=330, bg_color='transparent',fg_color='transparent',border_color=color_login,border_width=2).place(x=30, y=120)
+
+
+
+
         # BOTÕES SUPERIOR MENU PRINCIPAL
             btn_calculo = ctk.CTkButton(master=MenuPrincipal, text='Dados',bg_color='transparent', font=('Century Gothic', 15), fg_color=color_login,corner_radius=10)
             btn_calculo.place(x=40, y=70)
@@ -86,11 +95,13 @@ class App_gerenciamento():
             btn_dados.place(x=565, y=70)
 
             # Frame de exibição
-            frm_exibe = ctk.CTkFrame(master=MenuPrincipal, width=665, height=350, fg_color=color_login, corner_radius=30)
-            frm_exibe.place(x=40, y=120)
+            frm_exibe = ctk.CTkFrame(master=MenuPrincipal, width=590, height=230, fg_color='transparent',bg_color='transparent')
+            frm_exibe.place(x=35, y=125)
 
-
-            # Calcular a largura das colunas com base no conteúdo das células
+            
+            
+            
+            # Calcular a largura das colunas com base no conteúdo6 das células
 
 
          # Calcular a largura das colunas com base no conteúdo das células
@@ -106,42 +117,36 @@ class App_gerenciamento():
 
             def open_file():
                 file_path = filedialog.askopenfilename(filetypes=[('Excel Files', '*.xlsx *.xls')])
+                btn_abrir.configure(state=DISABLED)  #DESATIVA BOTÃO
+                btn_abrir.configure(fg_color='red',bg_color= 'transparent')
                 if file_path:
                     df = pd.read_excel(file_path)
 
-        # Reorganizar as colunas para a orientação correta
-                    df = df.transpose()
-                    table_model = TableModel(dataframe=df)
-
-                    table = Table(frm_exibe, model=table_model)
-                    table.configure(cellbackground='white', cellforeground='black', rowselectedcolor='orange', rowheaderbackground='gray', rowheaderforeground='white', font=('Helvetica', 10), headerfont=('Helvetica', 10, 'bold'))
-
-                    # Oculta a coluna de índices
-                    table.showIndex()
-                    table.redraw()
-
-                    # Oculta a legenda do eixo y
-
-
+                                     
+                    table = Table(frm_exibe, dataframe=df, width=610, height=270, editable=False,showindex=False)
                     table.show()
+                    btn_abrir.configure(bg_color='SystemButtonFace')  #RETORNAR ESTABELECIDA NO INICIO DO CODIGO
+                    btn_abrir.configure(state=DISABLED) 
+                    btn_import.configure(state=NORMAL)
+                    btn_import.configure(fg_color='green')  
+                else:
+                    msg1 = messagebox('Arquivo não selecionado!')
 
-                    MenuPrincipal.update()
+
+                    def fechar_tabela():
+                        open_file
+                        pass
+#                    root.mainloop()
+
 
             # BOTÕES DE EXPORTAÇÃO
-            btn_abrir = ctk.CTkButton(master=MenuPrincipal, text='Abrir',corner_radius=15,border_color=None ,font=('Century Gothic', 14), fg_color=color_login,command=open_file)
-            btn_abrir.place(x=80, y=476)
-            btn_import = ctk.CTkButton(master=MenuPrincipal, text='Importar',corner_radius=15,border_color=None ,font=('Century Gothic', 14), fg_color=color_login,)
-            btn_import.place(x=255, y=476)
-#TEMAA
-            
-            def mudar_tema():
-                ctk.set_appearance_mode('dark')
-                ctk.set_default_color_theme('dark-blue')
-                color_login = mudar_tema
-
-            btn_export = ctk.CTkButton(master=MenuPrincipal, text='Modo noturno!',corner_radius=15,border_color=None ,font=('Century Gothic', 14), fg_color=color_login,command=mudar_tema)
-            btn_export.place(x=850, y=476)
-
+            btn_abrir = ctk.CTkButton(master=MenuPrincipal, text='Importar',corner_radius=15,border_color=None ,font=('Century Gothic', 14), fg_color='green',command=open_file)
+            btn_abrir.place(x=40, y=465)
+            btn_import = ctk.CTkButton(master=MenuPrincipal, text='Exportar',corner_radius=15,border_color=None ,font=('Century Gothic', 14), fg_color='red')
+            btn_import.place(x=565, y=465)
+            btn_import.configure(state=DISABLED)
+           
+         
             MenuPrincipal.mainloop()
 
  ###########################  FINALIZAÇÕES ###################################################
