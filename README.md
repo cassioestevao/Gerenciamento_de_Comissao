@@ -11,7 +11,9 @@ Este projeto é um aplicativo de gerenciamento de comissão que permite armazena
 - [CustomTkinter](https://github.com/codeslash21/customtkinter) - Para personalização avançada dos componentes de interface.
 - [Pandas](https://pandas.pydata.org/) - Para manipulação de dados.
 - [Matplotlib](https://matplotlib.org/) - Para visualização de dados em gráficos.
-
+<br>
+<br>
+<br>
 ## Funcionalidades
 
 - Cadastro de novos dados de comissão.
