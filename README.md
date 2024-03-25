@@ -6,7 +6,7 @@
 
 # Projeto de Gerenciamento de Comissão
 
-Este projeto é um aplicativo de gerenciamento de comissão que permite armazenar e manipular dados na nuvem. Ele foi desenvolvido utilizando as seguintes bibliotecas Python:
+***Este projeto é um aplicativo de gerenciamento de comissão que permite armazenar e manipular dados na nuvem. Ele foi desenvolvido utilizando as seguintes bibliotecas Python:***
 
 - [Tkinter](https://docs.python.org/3/library/tkinter.html) - Para a criação da interface gráfica.
 - [CustomTkinter](https://github.com/codeslash21/customtkinter) - Para personalização avançada dos componentes de interface.
