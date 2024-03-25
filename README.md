@@ -3,7 +3,7 @@
 <br>
 <br>
 <br>
-ojeto de Gerenciamento de Comissão
+##Projeto de Gerenciamento de Comissão
 
 Este projeto é um aplicativo de gerenciamento de comissão que permite armazenar e manipular dados na nuvem. Ele foi desenvolvido utilizando as seguintes bibliotecas Python:
 
@@ -15,7 +15,7 @@ Este projeto é um aplicativo de gerenciamento de comissão que permite armazena
 <br>
 <br>
 
-## Funcionalidades
+### Funcionalidades
 - Cadastro de novos dados de comissão.
 - Edição e exclusão de dados existentes.
 - Visualização de relatórios e gráficos de desempenho de comissão.
