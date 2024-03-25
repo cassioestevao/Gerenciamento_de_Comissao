@@ -14,8 +14,8 @@ Este projeto é um aplicativo de gerenciamento de comissão que permite armazena
 <br>
 <br>
 <br>
-## Funcionalidades
 
+## Funcionalidades
 - Cadastro de novos dados de comissão.
 - Edição e exclusão de dados existentes.
 - Visualização de relatórios e gráficos de desempenho de comissão.
